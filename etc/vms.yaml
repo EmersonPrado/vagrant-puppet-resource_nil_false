@@ -1,0 +1,27 @@
+---
+debian-09:
+  :box: 'debian/stretch64'
+# Couldn't get VB Guest Additions to work
+# debian-10:
+#   :box: 'debian/buster64'
+debian-11:
+ :box: 'debian/bullseye64'
+
+ubuntu-18:
+  :box: 'hashicorp/bionic64'
+ubuntu-20:
+  :box: 'xcoo/focal64'
+ubuntu-22:
+  :box: 'leodotcloud/jammy64'
+
+centos-6:
+  :box: 'bento/centos-6'
+centos-7:
+  :box: 'bento/centos-7'
+rocky-8:
+  :box: 'bento/rockylinux-8'
+rocky-9:
+  :box: 'bento/rockylinux-9'
+
+opensuse-15:
+  :box: 'opensuse/Leap-15.2.x86_64'
