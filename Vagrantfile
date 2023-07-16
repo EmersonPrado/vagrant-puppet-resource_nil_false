@@ -22,6 +22,14 @@ Vagrant.configure('2') do |config|
           virtualbox.customize ['modifyvm', :id, key, value]
         end
       end
+
+      # Puppet installation
+      vm.vm.provision :shell do |shell|
+        shell.name = 'Installs Puppet'
+        shell.path = 'bin/install_puppet.sh'
+        # Set Puppet Version in file etc/global.yaml
+        shell.args = GLOBAL[:puppet_version]
+      end
     end
   end
 end
