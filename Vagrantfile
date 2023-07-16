@@ -10,6 +10,9 @@ VMS = YAML.load_file(File.join('etc', 'vms.yaml'))
 
 # There we go
 Vagrant.configure('2') do |config|
+  # Avoid user-unexpected steps at "vagrant up"
+  config.vbguest.auto_update = false if Vagrant.has_plugin?('vagrant-vbguest')
+
   VMS.each do |name, confs|
     config.vm.define name do |vm|
       vm.vm.box = confs[:box]
