@@ -1,0 +1,9 @@
+---
+:ram: 384
+:cpu: 1
+:puppet_version: 8
+:custom:
+  '--natdnshostresolver1': 'on'
+  '--vrde': 'off'
+  '--graphicscontroller': 'vmsvga'
+  '--vram': 12
