@@ -8,10 +8,18 @@ require 'yaml'
 GLOBAL = YAML.load_file(File.join('etc', 'global.yaml'))
 VMS = YAML.load_file(File.join('etc', 'vms.yaml'))
 
+# Hiera host dir
+Dir.mkdir('data') unless Dir.exist?('data')
+
 # There we go
 Vagrant.configure('2') do |config|
   # Avoid user-unexpected steps at "vagrant up"
   config.vbguest.auto_update = false if Vagrant.has_plugin?('vagrant-vbguest')
+
+  # Puppet provisioner mounts needed dirs, except this
+  config.vm.synced_folder 'data', '/tmp/vagrant-hiera' do |folder|
+    folder.id = 'hiera_dir'
+  end
 
   VMS.each do |name, confs|
     config.vm.define name do |vm|
