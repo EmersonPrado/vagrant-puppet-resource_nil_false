@@ -41,6 +41,17 @@ Vagrant.configure('2') do |config|
         # Set Puppet Version in file etc/global.yaml
         shell.args = GLOBAL[:puppet_version]
       end
+
+      # Puppet run
+      vm.vm.provision :puppet do |puppet|
+        puppet.binary_path = '/opt/puppetlabs/bin' if confs[:box].include?('suse')
+        puppet.manifests_path = 'manifests'
+        puppet.module_path = 'modules'
+        # Uncomment if debug needed
+        # puppet.options = ['-d']
+        puppet.hiera_config_path = 'hiera.yaml'
+        puppet.working_directory = '/tmp/vagrant-puppet'
+      end
     end
   end
 end
