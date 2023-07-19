@@ -9,6 +9,7 @@ Vagrant environment to test Puppet custom resources failure with properties set 
     1. [Download project](#download-project)
     1. [Virtual machines](#virtual-machines)
         1. [Debian 9 VM fix](#debian-9-vm-fix)
+    1. [Puppet version](#puppet-version)
 
 ## Description
 
@@ -85,3 +86,13 @@ vagrant reload --no-provision debian-09     # Loads updated kernel
 vagrant vbguest --do install -b debian-09   # Updates Guest Additions
 vagrant reload debian-09                    # Loads updated Guest Additions
 ```
+
+### Puppet version
+
+You can choose a Puppet version, from 5 to 8, by changing key `:puppet_version` in `etc/global.yaml` file.
+- Not all Puppet versions run in all VMs. Older Linux versions are incompatible with Puppet 8, and the newer ones, with Puppet 5.
+- After changing, rerun Shell provisioner to apply the new version:
+
+    ```Shell
+    vagrant provision --provision-with=shell ] [ <VM spec> ]
+    ```
