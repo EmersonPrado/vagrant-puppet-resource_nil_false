@@ -5,6 +5,7 @@ Vagrant environment to test Puppet custom resources failure with properties set 
 #### Contents
 
 1. [Description](#description)
+1. [Pre-reqs](#pre-reqs)
 1. [Usage](#usage)
     1. [Download project](#download-project)
     1. [Virtual machines](#virtual-machines)
@@ -20,6 +21,14 @@ This project automates the creation of an environment to test Puppet custom reso
 It was observed that, when such resources properties are set to `unset` or `false`, Puppet just doesn't call the properties setter functions.
 
 This Vagrant environment includes a set of VMs with varied distros and versions, a test Puppet module with a dummy custom resource and a main manifest calling this resource.
+
+## Pre-reqs
+
+- Linux (recommended)
+- Git
+- VirtualBox
+- Vagrant
+    - Vagrant plugin `vagrant-vbguest`
 
 ## Usage
 
