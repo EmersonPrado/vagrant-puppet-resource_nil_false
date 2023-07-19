@@ -7,6 +7,7 @@ Vagrant environment to test Puppet custom resources failure with properties set 
 1. [Description](#description)
 1. [Usage](#usage)
     1. [Download project](#download-project)
+    1. [Virtual machines](#virtual-machines)
 
 ## Description
 
@@ -34,3 +35,33 @@ If you already cloned, update it
 cd <Local clone dir>
 git pull
 ```
+
+### Virtual machines
+
+Vagrant manages the VMs. You can query and change their statuses via `vagrant <Command> [<Options>] [VMs]`. Examples:
+
+
+
+```Shell
+# Check VMs statuses
+vagrant status [ <VM spec> ]
+# Turn VMs on, creating if necessary
+vagrant up [ --no-provision ] [ <VM spec> ]
+# Run provisioner(s) inside VMs
+vagrant provision [ --provision-with=<Provisioner> ] [ <VM spec> ]
+# Run shell in a VM
+vagrant ssh <VM name>
+# Run command in a VM (watch your quotes!)
+vagrant ssh <VM name> -c <Command>
+# Turn VMs off
+vagrant halt [ <VM spec> ]
+# Remove VMs, turning off if necessary
+vagrant destroy [ <VM spec> ]
+```
+
+Where:
+- VM spec: list of space-separated names and/or regular expressions to match names
+    - Default: all
+- `--no-provision`: don't run provisioners
+- Provisioner: `shell` installs Puppet and `puppet` runs the main manifest
+    - Default: all
