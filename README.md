@@ -8,6 +8,7 @@ Vagrant environment to test Puppet custom resources failure with properties set 
 1. [Usage](#usage)
     1. [Download project](#download-project)
     1. [Virtual machines](#virtual-machines)
+        1. [Debian 9 VM fix](#debian-9-vm-fix)
 
 ## Description
 
@@ -41,7 +42,6 @@ git pull
 Vagrant manages the VMs. You can query and change their statuses via `vagrant <Command> [<Options>] [VMs]`. Examples:
 
 
-
 ```Shell
 # Check VMs statuses
 vagrant status [ <VM spec> ]
@@ -65,3 +65,23 @@ Where:
 - `--no-provision`: don't run provisioners
 - Provisioner: `shell` installs Puppet and `puppet` runs the main manifest
     - Default: all
+
+#### Debian 9 VM fix
+
+VM `debian-09` will fail when created, because of an incompatibility between the OS and VirtualBox Guest Additions versions. To fix it, update APT repos, then the SO, then the kernel:
+
+```Shell
+# In your host
+vagrant ssh debian-09
+# Inside the VM
+echo 'deb http://deb.debian.org/debian stretch-backports main contrib' |
+  sudo tee -a /etc/apt/sources.list > /dev/null
+sudo apt-get -y update
+sudo apt-get -y upgrade
+sudo apt-get -yt stretch-backports install linux-{headers,image}-amd64
+exit
+# In your host
+vagrant reload --no-provision debian-09     # Loads updated kernel
+vagrant vbguest --do install -b debian-09   # Updates Guest Additions
+vagrant reload debian-09                    # Loads updated Guest Additions
+```
