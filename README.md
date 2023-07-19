@@ -14,6 +14,7 @@ Vagrant environment to test Puppet custom resources failure with properties set 
     1. [Puppet execution](#puppet-execution)
 1. [What to check](#what-to-check)
 1. [Files and settings](#files-and-settings)
+1. [References](#references)
 
 ## Description
 
@@ -169,3 +170,16 @@ Most important project files and what they do:
 - [modules/resource_nil_false](modules/resource_nil_false) - Puppet module containing dummy resource
     - [modules/resource_nil_false/lib/puppet/type/setter_call.rb](modules/resource_nil_false/lib/puppet/type/setter_call.rb) - Dummy resource type
     - [modules/resource_nil_false/lib/puppet/provider/setter_call/setter_call.rb](modules/resource_nil_false/lib/puppet/provider/setter_call/setter_call.rb) - Dummy resource provider
+
+## References
+
+- Git
+    - [Reference](https://git-scm.com/docs)
+    - [Book](https://git-scm.com/book/en/v2)
+- Vagrant
+    - [Documentation](https://developer.hashicorp.com/vagrant/docs)
+    - [Boxes](https://app.vagrantup.com/boxes/search)
+    - [vagrant-vbguest plugin](https://rubygems.org/gems/vagrant-vbguest/)
+- Puppet
+    - [The Puppet language](https://www.puppet.com/docs/puppet/8/puppet_language.html)
+    - [Low-level method for developing types and providers](https://www.puppet.com/docs/puppet/8/types_and_providers_method.html)
