@@ -11,6 +11,7 @@ Vagrant environment to test Puppet custom resources failure with properties set 
         1. [Debian 9 VM fix](#debian-9-vm-fix)
     1. [Puppet version](#puppet-version)
     1. [Puppet execution](#puppet-execution)
+1. [What to check](#what-to-check)
 
 ## Description
 
@@ -115,3 +116,34 @@ vagrant provision --provision-with=puppet > puppet_$(awk '$1 == ":puppet_version
 vagrant provision --provision-with=puppet |
 tee >(grep -F 'changed' > puppet_$(awk '$1 == ":puppet_version:" { print $2 }' etc/global.yaml).log)
 ```
+
+## What to check
+
+The Puppet output and, eventually, the log file(s), show what changed in what VM. The Puppet custom resource is dummy, and doesn't change anything, but it has properties `previous_state` and `desired_state`, which the Puppet main manifest alternates among `unset`, `false` and `true`, like this:
+
+```mermaid
+graph LR
+  subgraph Previous State
+    PU[Unset]
+    PF[False]
+    PT[True]
+  end
+  subgraph Desired State
+    DU[Unset]
+    DF[False]
+    DT[True]
+  end
+  PU --> DU
+  PF --> DU
+  PT --> DU
+  PU --> DF
+  PF --> DF
+  PT --> DF
+  PU --> DT
+  PF --> DT
+  PT --> DU
+```
+
+Ideally, the log should show a "changed" message for every combination where Previous State != Desired State, for every VM.
+
+The proof of failure is the absence of "changed" messages where Desired State is `undef` or `false`, regardless of the Previous State.
