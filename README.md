@@ -13,6 +13,7 @@ Vagrant environment to test Puppet custom resources failure with properties set 
     1. [Puppet version](#puppet-version)
     1. [Puppet execution](#puppet-execution)
 1. [What to check](#what-to-check)
+1. [Files and settings](#files-and-settings)
 
 ## Description
 
@@ -156,3 +157,15 @@ graph LR
 Ideally, the log should show a "changed" message for every combination where Previous State != Desired State, for every VM.
 
 The proof of failure is the absence of "changed" messages where Desired State is `undef` or `false`, regardless of the Previous State.
+
+## Files and settings
+
+Most important project files and what they do:
+- [Vagrantfile](Vagrantfile) - Coordinates VMs creation and configuration (provisioning)
+- [etc/vms.yaml](etc/vms.yaml) - List all VMs and which box (template) each one should use
+- [etc/global.yaml](etc/global.yaml) - VMs/VirtualBox/Puppet general settings
+- [bin/install_puppet.sh](bin/install_puppet.sh) - Detects distro and Puppet currently installed version, validates package source and installs/updates Puppet
+- [manifests/default.pp](manifests/default.pp) - Main Puppet manifest - Calls the dummy resource with all previous/desired state combinations
+- [modules/resource_nil_false](modules/resource_nil_false) - Puppet module containing dummy resource
+    - [modules/resource_nil_false/lib/puppet/type/setter_call.rb](modules/resource_nil_false/lib/puppet/type/setter_call.rb) - Dummy resource type
+    - [modules/resource_nil_false/lib/puppet/provider/setter_call/setter_call.rb](modules/resource_nil_false/lib/puppet/provider/setter_call/setter_call.rb) - Dummy resource provider
