@@ -10,6 +10,7 @@ Vagrant environment to test Puppet custom resources failure with properties set 
     1. [Virtual machines](#virtual-machines)
         1. [Debian 9 VM fix](#debian-9-vm-fix)
     1. [Puppet version](#puppet-version)
+    1. [Puppet execution](#puppet-execution)
 
 ## Description
 
@@ -96,3 +97,21 @@ You can choose a Puppet version, from 5 to 8, by changing key `:puppet_version` 
     ```Shell
     vagrant provision --provision-with=shell ] [ <VM spec> ]
     ```
+
+### Puppet execution
+
+It's recommended to do a specific Vagrant run only to run Puppet, what yields a smaller and cleaner log:
+
+```Shell
+vagrant provision --provision-with=puppet [ <VM spec> ]
+```
+
+Still more recommended to save the log, maybe applying some filtering. Examples with one log for each puppet version:
+
+```Shell
+# Full
+vagrant provision --provision-with=puppet > puppet_$(awk '$1 == ":puppet_version:" { print $2 }' etc/global.yaml).log
+# Filtered
+vagrant provision --provision-with=puppet |
+tee >(grep -F 'changed' > puppet_$(awk '$1 == ":puppet_version:" { print $2 }' etc/global.yaml).log)
+```
